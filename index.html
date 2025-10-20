@@ -1,241 +1,511 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tembea360 | Explore Kajiado</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Tembea360 — Explore Kajiado</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
-  * {box-sizing: border-box;}
-  body {
-    font-family: "Poppins", sans-serif;
-    margin: 0;
-    background: #f5f5f5;
-    color: #222;
-    overflow-x: hidden;
-  }
+  /* ---------- Base ---------- */
+  *{box-sizing:border-box}
+  body{font-family:"Poppins",system-ui,Segoe UI,Roboto,Arial;margin:0;background:#f6f6f5;color:#222}
+  a{color:inherit}
+  .container{max-width:1100px;margin:0 auto;padding:18px}
 
-  /* HEADER */
-  header {
-    position: sticky;
-    top: 0;
-    background: linear-gradient(90deg, #00897b, #f57c00);
-    color: #fff;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    z-index: 10;
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;top:0;z-index:40;
+    background:linear-gradient(90deg,#00897b 0%,#f57c00 100%);
+    color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 4px 18px rgba(0,0,0,0.15)
   }
-  header h1 {
-    margin: 0;
-    font-size: 1.8em;
-    letter-spacing: 1px;
-  }
-  nav a {
-    color: #fff;
-    margin-left: 15px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.3s;
-  }
-  nav a:hover {
-    color: #ffe082;
-    text-shadow: 0 0 8px rgba(255,255,255,0.6);
-  }
+  header .brand{display:flex;align-items:center;gap:12px}
+  header h1{margin:0;font-size:1.4rem;letter-spacing:0.6px}
+  header nav a{margin-left:14px;text-decoration:none;font-weight:600;color:#fff;opacity:0.95}
+  header nav a:hover{color:#fff;text-shadow:0 0 8px rgba(255,255,255,0.6)}
 
-  /* HERO */
-  .hero {
-    position: relative;
-    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), 
-      url('https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1200&q=60') center/cover no-repeat;
-    color: white;
-    text-align: center;
-    padding: 120px 20px;
+  /* ---------- Hero ---------- */
+  .hero{
+    background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.35)),
+      url('https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1400&q=60') center/cover no-repeat;
+    color:#fff;text-align:center;padding:86px 18px;border-bottom:6px solid rgba(0,0,0,0.04);
   }
-  .hero h2 {
-    font-size: 2.8em;
-    margin: 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    background: linear-gradient(90deg, #ffcc80, #ffffff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: glow 3s ease-in-out infinite alternate;
-  }
-  @keyframes glow {
-    from {text-shadow: 0 0 10px #ffb300;}
-    to {text-shadow: 0 0 25px #fff59d;}
-  }
-  .hero p {
-    font-size: 1.2em;
-    margin-top: 15px;
-    color: #fffde7;
-  }
+  .hero h2{font-size:2.4rem;margin:0;text-transform:uppercase;letter-spacing:2px;
+    background:linear-gradient(90deg,#ffd180,#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    text-shadow:2px 2px 8px rgba(0,0,0,0.6)}
+  .hero p{margin-top:10px;color:#fffde7;font-size:1.05rem}
 
-  /* SECTIONS */
-  .section {
-    padding: 60px 20px;
-    max-width: 1100px;
-    margin: auto;
-  }
-  h2 {
-    text-align: center;
-    color: #004d40;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
+  /* ---------- Controls ---------- */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px auto 6px}
+  input[type="search"], select{padding:10px 12px;border-radius:8px;border:1px solid #d7d7d7;min-width:200px}
+  .btn-primary{background:#f57c00;color:#fff;padding:10px 14px;border-radius:8px;border:none;cursor:pointer;font-weight:700}
+  .btn-secondary{background:#fff;color:#00695c;padding:8px 12px;border-radius:8px;border:1px solid #e6e6e6;cursor:pointer}
 
-  /* CARDS */
-  .grid {display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;}
-  .card {
-    background: linear-gradient(180deg, #ffffff, #fff8e1);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    transition: transform .3s ease, box-shadow .3s ease;
-    opacity: 0;
-    animation: fadeIn 1s forwards;
+  /* ---------- Grid & Card ---------- */
+  .grid{display:grid;grid-template-columns:1fr;gap:18px;padding:6px}
+  @media(min-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
+  .card{
+    background:linear-gradient(180deg,#ffffff,#fff8e1);
+    border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.08);
+    transition:transform .28s ease,box-shadow .28s ease;padding-bottom:14px;
   }
-  .card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-  }
-  @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
-  .card img {width: 100%; height: 180px; object-fit: cover;}
-  .card h3 {margin: 12px 15px 5px; color: #00695c;}
-  .card p {margin: 10px 15px 15px; font-size: 0.95em; color: #333;}
-  .card a {
-    display: inline-block;
-    margin: 0 15px 15px;
-    color: #f57c00;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .card a:hover {text-decoration: underline;}
+  .card:hover{transform:translateY(-8px);box-shadow:0 12px 30px rgba(0,0,0,0.12)}
+  .card-header{display:flex;gap:14px;align-items:center;padding:14px 16px}
+  .thumb{width:96px;height:72px;border-radius:8px;object-fit:cover;border:1px solid #eee}
+  .card-title{font-size:1.12rem;margin:0;color:#00695c;font-weight:700}
+  .meta{font-size:0.9rem;color:#555;margin-top:6px}
 
-  /* MAP */
-  #map {
-    height: 420px;
-    border-radius: 12px;
-    margin-top: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  }
+  .card-body{padding:0 16px 12px}
+  .desc{margin:8px 0 12px;color:#333}
 
-  /* FOOTER */
-  footer {
-    background: linear-gradient(90deg, #004d40, #f57c00);
-    color: white;
-    text-align: center;
-    padding: 25px;
-    margin-top: 50px;
-    font-weight: 500;
-  }
+  /* sub-section boxes */
+  .sub {background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:10px;border-left:4px solid #f57c00}
+  .sub h4{margin:0 0 6px;color:#00695c;font-size:0.98rem}
+  .sub ul{margin:0;padding-left:18px}
+  .sub li{margin:6px 0;font-size:0.95rem;color:#333}
 
-  /* INPUTS */
-  select, input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin: 5px;
-    width: 180px;
-    font-family: inherit;
-  }
+  /* distance & actions */
+  .meta-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .distance{background:rgba(0,0,0,0.03);padding:6px 8px;border-radius:8px;font-weight:600;color:#333}
+  .actions{margin-left:auto;display:flex;gap:8px}
+  .actions a{background:#00695c;color:#fff;padding:7px 10px;border-radius:8px;text-decoration:none;font-weight:700}
+  .actions a.secondary{background:#fff;color:#00695c;border:1px solid #e6e6e6}
+
+  /* upload preview */
+  .upload-row{display:flex;gap:12px;align-items:flex-start;margin-top:10px}
+  .upload-row input[type=file]{flex:1}
+  .preview{width:120px;height:80px;border-radius:8px;object-fit:cover;border:1px solid #eaeaea;display:none}
+
+  /* map */
+  #map{height:420px;border-radius:12px;margin:20px auto;box-shadow:0 8px 18px rgba(0,0,0,0.12)}
+
+  /* footer */
+  footer{padding:18px;text-align:center;background:linear-gradient(90deg,#004d40,#f57c00);color:#fff;margin-top:26px}
+
+  /* small helpers */
+  .muted{color:#666;font-size:0.92rem}
 </style>
 </head>
-
 <body>
+
 <header>
-  <h1>🌅 Tembea360</h1>
-  <nav>
+  <div class="brand container" style="padding:0">
+    <div style="display:flex;align-items:center;gap:10px">
+      <div style="width:44px;height:44px;border-radius:10px;background:#fff;padding:8px;display:flex;align-items:center;justify-content:center">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.5 7H20l-5.5 4 2 7L12 16 7.5 20l2-7L4 9h4.5L12 2z" fill="#f57c00"/></svg>
+      </div>
+      <h1>Tembea360</h1>
+    </div>
+  </div>
+
+  <nav style="padding-right:18px;">
     <a href="#places">Destinations</a>
-    <a href="#transport">Transport</a>
-    <a href="#lodging">Lodging</a>
-    <a href="#bookings">Tours</a>
+    <a href="#map">Map</a>
+    <a href="#bookings">Stays & Tours</a>
     <a href="#contact">Contact</a>
   </nav>
 </header>
 
 <section class="hero">
-  <h2>Discover Kajiado</h2>
-  <p>From serene hills to cultural gems — your adventure starts here.</p>
+  <div class="container">
+    <h2>Discover Kajiado</h2>
+    <p>See routes, quick transport options, nearby lodgings and tours — all in one place. Tap a card to preview images or upload your own.</p>
+  </div>
 </section>
 
-<!-- DESTINATIONS -->
-<section class="section" id="places">
-  <h2>Top Destinations</h2>
-  <div class="grid">
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1598630930370-dde6ef43b6cd?auto=format&fit=crop&w=800&q=60">
-      <h3>Ngong Hills</h3>
-      <p>Hike the stunning hills and enjoy panoramic views of the Great Rift Valley.</p>
+<div class="container" id="places">
+  <div class="controls">
+    <input id="globalSearch" type="search" placeholder="Search destinations, transport, hotels..." />
+    <select id="filterType">
+      <option value="all">All categories</option>
+      <option value="nature">Nature</option>
+      <option value="culture">Cultural</option>
+      <option value="food">Food & Relaxation</option>
+    </select>
+    <button id="locateBtn" class="btn-primary">Show my location</button>
+    <button id="resetBtn" class="btn-secondary">Reset</button>
+  </div>
+
+  <!-- Grid of attractions (scrolling dashboard) -->
+  <div class="grid" id="attractionGrid">
+    <!-- Cards generated by JS -->
+  </div>
+
+  <!-- Interactive Map -->
+  <div id="map" class="container"></div>
+
+  <!-- Stays & Tours (Real listings) -->
+  <section id="bookings" style="margin-top:18px">
+    <h2 style="text-align:center;color:#004d40">Book Stays & Tours</h2>
+    <div class="grid" style="margin-top:12px">
+      <div class="card">
+        <div class="card-header">
+          <img class="thumb" src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=800&q=60" alt="">
+          <div>
+            <div class="card-title">Entarakuet Hotel</div>
+            <div class="meta muted">Kiserian-Isinya Rd, Kajiado · 📞 +254 722 885 577</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="desc">Comfortable rooms, pool, events & family facilities. Great stopover for Kajiado visitors.</p>
+          <div class="sub"><h4>Website</h4><a href="https://entarakuethotel.com" target="_blank">entarakuethotel.com</a></div>
+          <div class="sub"><h4>Booking</h4><a href="tel:+254722885577">Call to book</a></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <img class="thumb" src="https://images.unsplash.com/photo-1524086378968-32fc1e9c3b12?auto=format&fit=crop&w=800&q=60" alt="">
+          <div>
+            <div class="card-title">Norlis Tours & Travel</div>
+            <div class="meta muted">Milele Center, Kitengela · 📞 +254 708 441 098</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <p class="desc">Tours, safari packages, transfers & hotel bookings across Kajiado & Amboseli.</p>
+          <div class="sub"><h4>Website</h4><a href="https://www.norlis.co.ke" target="_blank">norlis.co.ke</a></div>
+          <div class="sub"><h4>Booking</h4><a href="tel:+254708441098">Call to book</a></div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1601890845793-9aaf8d8b1b2d?auto=format&fit=crop&w=800&q=60">
-      <h3>Olkaria Hot Springs</h3>
-      <p>Relax in natural geothermal pools surrounded by scenic landscapes.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" style="margin-top:20px">
+    <h2 style="text-align:center;color:#004d40">Contact & Quick Booking</h2>
+    <div style="text-align:center;margin-top:10px" class="muted">Phone: +254 700 123 456 · Email: bookings@tembea360.co.ke</div>
+  </section>
+
+  <!-- Upload manager -->
+  <section id="upload" style="margin-top:20px">
+    <h2 style="text-align:center;color:#004d40">Manage Photos / Logos</h2>
+    <p style="text-align:center;color:#666;margin-top:6px">Upload images for any attraction — previews are stored client-side and shown instantly.</p>
+    <div style="margin-top:10px" class="grid">
+      <div class="card" style="padding-bottom:12px">
+        <div class="card-body">
+          <h3 style="margin:6px 0">Upload for currently selected attraction</h3>
+          <div style="display:flex;gap:10px;align-items:center">
+            <input id="selectedAttraction" placeholder="Type attraction name (e.g., Ngong Hills)" style="padding:10px;border-radius:8px;border:1px solid #ddd;flex:1">
+            <input id="fileInput" type="file" accept="image/*" style="padding:8px">
+          </div>
+          <img id="selectedPreview" class="preview" alt="Selected preview">
+          <div style="margin-top:8px;color:#666;font-size:0.95rem">Tip: type the attraction name exactly to attach preview to it.</div>
+        </div>
+      </div>
+      <div class="card" style="padding-bottom:12px">
+        <div class="card-body">
+          <h3 style="margin:6px 0">Quick previews</h3>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <img id="qp1" class="preview" alt="">
+            <img id="qp2" class="preview" alt="">
+            <img id="qp3" class="preview" alt="">
+          </div>
+          <div style="margin-top:10px;color:#666">Uploaded images are immediate previews in this browser. To persist them you'll need a backend or cloud storage (I can help set that up).</div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?auto=format&fit=crop&w=800&q=60">
-      <h3>Amboseli Plains</h3>
-      <p>Spot elephants beneath the backdrop of Mt. Kilimanjaro’s majestic peaks.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- TRANSPORT -->
-<section class="section" id="transport">
-  <h2>Transport Options</h2>
-  <div class="grid">
-    <div class="card"><h3>Private Safari Jeep</h3><p>Comfortable 4x4 vehicles for off-road exploration and wildlife tours.</p></div>
-    <div class="card"><h3>Matatu Shuttles</h3><p>Affordable and frequent routes connecting key tourist points across Kajiado.</p></div>
-    <div class="card"><h3>Motorbike Guides</h3><p>Quick rides for solo travelers — get guided by locals who know every trail.</p></div>
-  </div>
-</section>
+</div>
 
-<!-- LODGING -->
-<section class="section" id="lodging">
-  <h2>Hotels & Lodging</h2>
-  <div class="grid">
-    <div class="card"><h3>Kajiado Comfort Inn</h3><p>Modern amenities and local cuisine starting from KSh 4,000/night.</p></div>
-    <div class="card"><h3>Amboseli Safari Lodge</h3><p>Luxury lodge with Mt. Kilimanjaro view — from KSh 9,500/night.</p></div>
-    <div class="card"><h3>Enkare Eco Camp</h3><p>Eco-friendly camping with Maasai cultural experience — from KSh 2,000/night.</p></div>
-  </div>
-</section>
+<footer>© 2025 Tembea360 · Explore Kajiado • Built with local love ❤️</footer>
 
-<!-- TOURS -->
-<section class="section" id="bookings">
-  <h2>Available Tours</h2>
-  <div class="grid">
-    <div class="card"><h3>Kilimanjaro Base Safari</h3><p>3-day Amboseli adventure. Price: KSh 25,000/person.</p></div>
-    <div class="card"><h3>Maasai Cultural Day</h3><p>Experience traditional songs, dances, and crafts. Price: KSh 5,000/person.</p></div>
-    <div class="card"><h3>Hot Springs Relaxation</h3><p>1-day tour to Olkaria hot springs. Price: KSh 3,500/person.</p></div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section class="section" id="contact">
-  <h2>Get in Touch</h2>
-  <p style="text-align:center;">📞 Call us: +254 700 123 456 | ✉️ Email: bookings@tembea360.co.ke</p>
-  <div id="map"></div>
-</section>
-
-<footer>
-  © 2025 Tembea360 | Explore Kajiado in Color ✨
-</footer>
-
+<!-- Leaflet + Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  var map = L.map('map').setView([-1.8521, 36.7768], 9);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap'
-  }).addTo(map);
-  L.marker([-1.8521, 36.7768]).addTo(map).bindPopup('Welcome to Kajiado County!');
+/* ---------- Data ---------- */
+const attractions = [
+  {
+    id: "ngong",
+    name: "Ngong Hills",
+    type: "nature",
+    lat: -1.3667, lon: 36.6333,
+    desc: "Hike the stunning Ngong Hills and enjoy panoramic views of the Rift Valley.",
+    transport: [
+      {name:"Private Safari Jeep",price:"KSh 5,000/day"},
+      {name:"Motorbike Guide",price:"KSh 1,000/trip"},
+      {name:"Kajiado Shuttle",price:"KSh 250/pax"}
+    ],
+    lodging:[
+      {name:"Kajiado Comfort Inn",time:"25 min"},
+      {name:"Enkare Eco Camp",time:"15 min"}
+    ],
+    tours:[
+      {name:"Ngong Hike Experience",price:"KSh 3,500"},
+      {name:"Maasai Cultural Day",price:"KSh 5,000"}
+    ],
+    markerPopup: "Ngong Hills — hiking & views"
+  },
+  {
+    id:"magadi",
+    name:"Lake Magadi",
+    type:"nature",
+    lat:-1.9000, lon:36.2833,
+    desc:"Soda lake famous for flamingos and striking salt formations.",
+    transport:[
+      {name:"4x4 Safari Ride",price:"KSh 6,500"},
+      {name:"Tour Van",price:"KSh 8,000/day"}
+    ],
+    lodging:[
+      {name:"Magadi Lodge",time:"nearby"},
+      {name:"Field Camps",time:"30–45 min"}
+    ],
+    tours:[
+      {name:"Magadi Birdwatching",price:"KSh 2,200"},
+      {name:"Salt Flats Photo Tour",price:"KSh 3,000"}
+    ],
+    markerPopup: "Lake Magadi — flamingos & salt flats"
+  },
+  {
+    id:"olepolos",
+    name:"Olepolos Country Club",
+    type:"food",
+    lat:-1.5162, lon:36.6844,
+    desc:"Famous spot for nyama choma, live music and relaxed hillside dining.",
+    transport:[
+      {name:"Local Taxi",price:"Negotiable"},
+      {name:"Tour Van",price:"KSh 3,500"}
+    ],
+    lodging:[
+      {name:"Olepolos Country Stay",time:"on-site"},
+      {name:"Enkorika Resort",time:"20 min"}
+    ],
+    tours:[
+      {name:"Sunset Dinner & Drive",price:"KSh 2,800"}
+    ],
+    markerPopup:"Olepolos — food & nightlife"
+  },
+  {
+    id:"amboseli",
+    name:"Amboseli Plains",
+    type:"nature",
+    lat:-2.6482, lon:37.2605,
+    desc:"Iconic park with elephants and epic views of Mt Kilimanjaro.",
+    transport:[
+      {name:"Safari 4x4",price:"KSh 9,000/day"},
+      {name:"Charter Van",price:"KSh 15,000/day"}
+    ],
+    lodging:[
+      {name:"Amboseli Serena Lodge",time:"inside park"},
+      {name:"Tented Camps",time:"various"}
+    ],
+    tours:[
+      {name:"2-day Amboseli Safari",price:"KSh 28,000"},
+      {name:"Birdwatching & Photography",price:"KSh 7,000"}
+    ],
+    markerPopup:"Amboseli — elephants & Kilimanjaro views"
+  },
+  {
+    id:"maasai",
+    name:"Maasai Market (Kajiado)",
+    type:"culture",
+    lat:-1.8537, lon:36.7768,
+    desc:"Vibrant market for Maasai beadwork, crafts and local arts.",
+    transport:[
+      {name:"Local Shuttle",price:"KSh 150"},
+      {name:"Taxi",price:"Negotiable"}
+    ],
+    lodging:[
+      {name:"Nearby Guesthouses",time:"5–20 min"}
+    ],
+    tours:[
+      {name:"Craft Trails & Beadwork",price:"KSh 1,200"}
+    ],
+    markerPopup:"Maasai Market — crafts & culture"
+  },
+  {
+    id:"olkaria",
+    name:"Olkaria Hot Springs",
+    type:"nature",
+    lat:-0.8682, lon:36.2750,
+    desc:"Geothermal pools and dramatic landscapes ideal for relaxing day trips.",
+    transport:[
+      {name:"Tour Van",price:"KSh 4,500"},
+      {name:"4x4",price:"KSh 6,500"}
+    ],
+    lodging:[
+      {name:"Local Lodges",time:"20–40 min"},
+      {name:"Camp Sites",time:"nearby"}
+    ],
+    tours:[
+      {name:"Hot Springs Day Trip",price:"KSh 3,500"}
+    ],
+    markerPopup:"Olkaria — geothermal pools & landscape"
+  }
+];
+
+/* ---------- Map ---------- */
+const map = L.map('map').setView([-1.85,36.8],9);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18, attribution:'© OpenStreetMap contributors'}).addTo(map);
+const markers = {};
+attractions.forEach(at=>{
+  const m = L.marker([at.lat,at.lon]).addTo(map).bindPopup(`<b>${at.name}</b><br>${at.markerPopup}`);
+  markers[at.id]=m;
+});
+
+/* ---------- Utilities ---------- */
+function kmBetween(lat1,lon1,lat2,lon2){
+  const R=6371;
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLon=(lon2-lon1)*Math.PI/180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  const c = 2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  return +(R*c).toFixed(1);
+}
+function toGMaps(at){ return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(at.lat + ',' + at.lon)}&travelmode=driving`; }
+
+/* ---------- Render attraction cards ---------- */
+const grid = document.getElementById('attractionGrid');
+function renderGrid(filterText='',filterType='all'){
+  grid.innerHTML='';
+  const f = filterText.trim().toLowerCase();
+  attractions.filter(a=>{
+    const matchType = filterType==='all' || a.type===filterType;
+    const matchText = !f || a.name.toLowerCase().includes(f) || a.desc.toLowerCase().includes(f) ||
+      a.transport.some(t=>t.name.toLowerCase().includes(f)) || a.lodging.some(l=>l.name.toLowerCase().includes(f));
+    return matchType && matchText;
+  }).forEach(at=>{
+    const div = document.createElement('div'); div.className='card';
+    div.innerHTML = `
+      <div class="card-header">
+        <img class="thumb" id="thumb-${at.id}" src="https://source.unsplash.com/400x300/?${encodeURIComponent(at.name)}" alt="${at.name}">
+        <div style="flex:1">
+          <div class="card-title">${at.name}</div>
+          <div class="meta muted">${at.type.charAt(0).toUpperCase()+at.type.slice(1)} · <span id="dist-${at.id}">Calculating distance...</span></div>
+        </div>
+        <div class="actions">
+          <a href="${toGMaps(at)}" target="_blank">Directions</a>
+          <a class="secondary" href="#upload" onclick="selectAttraction('${at.name}')">Upload</a>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="desc">${at.desc}</p>
+
+        <div class="sub">
+          <h4>🚐 Transport Options</h4>
+          <ul id="transport-list-${at.id}">
+            ${at.transport.map(t=>`<li>${t.name} · <strong>${t.price}</strong></li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="sub">
+          <h4>🏨 Nearby Lodging</h4>
+          <ul id="lodging-list-${at.id}">
+            ${at.lodging.map(l=>`<li>${l.name} · <span class="muted">${l.time}</span></li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="sub">
+          <h4>🎟️ Related Tours</h4>
+          <ul id="tours-list-${at.id}">
+            ${at.tours.map(t=>`<li>${t.name} · <strong>${t.price}</strong></li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="upload-row">
+          <input type="file" accept="image/*" id="file-${at.id}" onchange="attachPreview(event,'${at.id}')">
+          <img id="preview-${at.id}" class="preview" alt="${at.name} preview">
+        </div>
+      </div>
+    `;
+    grid.appendChild(div);
+  });
+}
+renderGrid();
+
+/* ---------- Search & Filters ---------- */
+const searchInput = document.getElementById('globalSearch');
+const filterType = document.getElementById('filterType');
+searchInput.addEventListener('input', ()=>renderGrid(searchInput.value, filterType.value));
+filterType.addEventListener('change', ()=>renderGrid(searchInput.value, filterType.value));
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  searchInput.value=''; filterType.value='all'; renderGrid();
+});
+
+/* ---------- Geolocation & distances ---------- */
+let userPos = null;
+function updateDistances(lat,lon){
+  attractions.forEach(at=>{
+    const el = document.getElementById(`dist-${at.id}`);
+    if(el){
+      const d = kmBetween(lat,lon,at.lat,at.lon);
+      el.textContent = `${d} km away`;
+    }
+  });
+}
+function locateAndMark(){
+  if(!navigator.geolocation){ alert("Geolocation not supported in this browser."); return; }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    userPos = [pos.coords.latitude,pos.coords.longitude];
+    if(window.userMarker) map.removeLayer(window.userMarker);
+    window.userMarker = L.marker(userPos,{title:"You are here"}).addTo(map).bindPopup("You are here").openPopup();
+    map.setView(userPos,10);
+    updateDistances(userPos[0],userPos[1]);
+  }, err=>{
+    console.warn("Location denied or unavailable", err);
+    alert("Could not get your location. Please allow location access.");
+  }, {enableHighAccuracy:true, timeout:10000});
+}
+document.getElementById('locateBtn').addEventListener('click', locateAndMark);
+
+/* also try auto-locate on load (silent) */
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    userPos=[pos.coords.latitude,pos.coords.longitude];
+    window.userMarker = L.marker(userPos,{title:"You are here"}).addTo(map).bindPopup("You are here");
+    updateDistances(userPos[0],userPos[1]);
+  }, ()=>{/*silent fail*/});
+}
+
+/* ---------- Attach file preview to card & store as dataURL ---------- */
+const imageStore = {}; // in-memory previews per attraction id
+function attachPreview(event, id){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const data = e.target.result;
+    imageStore[id]=data;
+    const img = document.getElementById(`preview-${id}`);
+    if(img){ img.src=data; img.style.display='block'; }
+    // Also swap the card thumbnail if present
+    const thumb = document.getElementById(`thumb-${id}`);
+    if(thumb){ thumb.src = data; }
+    // small quick previews spots
+    const qp1 = document.getElementById('qp1'), qp2 = document.getElementById('qp2'), qp3 = document.getElementById('qp3');
+    if(qp1 && !qp1.src) { qp1.src=data; qp1.style.display='block'; }
+    else if(qp2 && !qp2.src) { qp2.src=data; qp2.style.display='block'; }
+    else if(qp3 && !qp3.src) { qp3.src=data; qp3.style.display='block'; }
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ---------- Upload manager (attach file to named attraction) ---------- */
+document.getElementById('fileInput').addEventListener('change', function(e){
+  const name = (document.getElementById('selectedAttraction').value||'').trim();
+  const file = e.target.files[0];
+  if(!name){ alert('Type the attraction name exactly (e.g., Ngong Hills) to attach the image.'); return; }
+  const at = attractions.find(a=>a.name.toLowerCase()===name.toLowerCase());
+  if(!at){ alert('No attraction found with that name. Check spelling.'); return; }
+  // reuse attachPreview logic by creating a fake event for id
+  const fakeEvent = { target: { files: [file] } };
+  attachPreview(fakeEvent, at.id);
+  // reflect into selected preview box
+  const selPrev = document.getElementById('selectedPreview'); selPrev.src = imageStore[at.id] || '';
+  if(selPrev.src) selPrev.style.display='block';
+  document.getElementById('selectedAttraction').value='';
+  e.target.value=''; // reset input
+});
+
+/* helper for upload button on cards */
+function selectAttraction(name){
+  document.getElementById('selectedAttraction').value = name;
+  window.scrollTo({top: document.getElementById('upload').offsetTop - 80, behavior:'smooth'});
+}
+
+/* ---------- Directions click: open Google Maps already provided in anchor ---------- */
+
+/* ---------- End ---------- */
 </script>
 </body>
 </html>
