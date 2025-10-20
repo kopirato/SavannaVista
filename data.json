@@ -1,1 +1,168 @@
 
+{
+  "meta": {
+    "site": "Tembea360",
+    "region": "Kajiado County",
+    "generated": "2025-10-20"
+  },
+  "attractions": [
+    {
+      "id": "ngong",
+      "name": "Ngong Hills",
+      "type": "nature",
+      "lat": -1.3667,
+      "lon": 36.6333,
+      "image": "https://images.unsplash.com/photo-1598630930370-dde6ef43b6cd?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Hike the stunning Ngong Hills and enjoy panoramic views of the Rift Valley.",
+      "transport": [
+        { "sacco": "Ngong Transit", "route": "Nairobi CBD → Ngong → Kiserian", "fare": "KSh 250–350", "phone": "+254701223344" },
+        { "sacco": "Kajiado Express", "route": "Nairobi Park → Ngong Stage", "fare": "KSh 300–400", "phone": "+254702334455" },
+        { "sacco": "Ngong Local Boda", "route": "Ngong Stage → Summit (last-mile)", "fare": "KSh 50–150", "phone": "+254701445566" }
+      ],
+      "lodging": [
+        { "name": "Kajiado Comfort Inn", "time": "25 min", "phone": "+254701000111", "website": "" },
+        { "name": "Enkare Eco Camp", "time": "15 min", "phone": "+254701000222", "website": "" }
+      ],
+      "tours": [
+        { "name": "Ngong Hike Experience", "price": "KSh 3,500" },
+        { "name": "Maasai Cultural Walk", "price": "KSh 2,000" }
+      ],
+      "nearby": ["Olepolos Country Club", "Kiserian Market"]
+    },
+
+    {
+      "id": "magadi",
+      "name": "Lake Magadi",
+      "type": "nature",
+      "lat": -1.9,
+      "lon": 36.2833,
+      "image": "https://images.unsplash.com/photo-1524086378968-32fc1e9c3b12?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Soda lake famous for flamingos and striking salt formations.",
+      "transport": [
+        { "sacco": "Magadi Shuttle", "route": "Nairobi → Kitengela → Magadi", "fare": "KSh 450–700", "phone": "+254701556677" },
+        { "sacco": "Isinya Line", "route": "Mombasa Rd via Isinya → Magadi", "fare": "KSh 500–800", "phone": "+254703667788" },
+        { "sacco": "Local 4x4 Pickup", "route": "Kitengela → Magadi (last-mile)", "fare": "KSh 300–500", "phone": "+254701778899" }
+      ],
+      "lodging": [
+        { "name": "Magadi Lodge", "time": "nearby", "phone": "+254701333444", "website": "" },
+        { "name": "Field Camps", "time": "30–45 min", "phone": "", "website": "" }
+      ],
+      "tours": [
+        { "name": "Magadi Birdwatching", "price": "KSh 2,200" },
+        { "name": "Salt Flats Photo Tour", "price": "KSh 3,000" }
+      ],
+      "nearby": ["Magadi Soda Works", "Flamingo Viewing Points"]
+    },
+
+    {
+      "id": "olepolos",
+      "name": "Olepolos Country Club",
+      "type": "food",
+      "lat": -1.5162,
+      "lon": 36.6844,
+      "image": "https://images.unsplash.com/photo-1558459654-c430f4c8b6df?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Famous spot for nyama choma, live music and relaxed hillside dining.",
+      "transport": [
+        { "sacco": "Olepolos Shuttle", "route": "Nairobi → Olepolos (via Kiserian)", "fare": "KSh 200–350", "phone": "+254701889900" },
+        { "sacco": "Kiserian Matatu", "route": "Kiserian Stage → Olepolos", "fare": "KSh 80–150", "phone": "+254702990011" },
+        { "sacco": "Local Taxi / Boda", "route": "Local pickup", "fare": "KSh 100–300", "phone": "+254701334455" }
+      ],
+      "lodging": [
+        { "name": "Olepolos Country Stay", "time": "on-site", "phone": "+254701556600", "website": "" },
+        { "name": "Enkorika Resort", "time": "20 min", "phone": "+254701112233", "website": "" }
+      ],
+      "tours": [
+        { "name": "Sunset Dinner & Drive", "price": "KSh 2,800" }
+      ],
+      "nearby": ["Kiserian Market", "Ngong Hills"]
+    },
+
+    {
+      "id": "amboseli",
+      "name": "Amboseli Plains",
+      "type": "nature",
+      "lat": -2.6482,
+      "lon": 37.2605,
+      "image": "https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Iconic park with elephants and epic views of Mt Kilimanjaro.",
+      "transport": [
+        { "sacco": "Kajiado Express", "route": "Nairobi → Kajiado → Amboseli (via Emali)", "fare": "KSh 700–1200", "phone": "+254702444333" },
+        { "sacco": "Amboseli Shuttle", "route": "Nairobi → Amboseli (direct)", "fare": "KSh 900–1500", "phone": "+254701667788" },
+        { "sacco": "Local 4x4 Transfer", "route": "Kajiado → Amboseli (last-mile)", "fare": "KSh 1200–2000", "phone": "+254703998877" }
+      ],
+      "lodging": [
+        { "name": "Amboseli Serena Lodge", "time": "inside park", "phone": "+254701333222", "website": "https://www.serenahotels.com/serena-amboseli" },
+        { "name": "Tented Camps", "time": "various", "phone": "", "website": "" }
+      ],
+      "tours": [
+        { "name": "2-day Amboseli Safari", "price": "KSh 28,000" },
+        { "name": "Birdwatching & Photography", "price": "KSh 7,000" }
+      ],
+      "nearby": ["Observation Hill", "Local Maasai Villages"]
+    },
+
+    {
+      "id": "maasai",
+      "name": "Maasai Market (Kajiado)",
+      "type": "culture",
+      "lat": -1.8537,
+      "lon": 36.7768,
+      "image": "https://images.unsplash.com/photo-1548738008-3d1b81d04b8d?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Vibrant market for Maasai beadwork, crafts and local arts.",
+      "transport": [
+        { "sacco": "Kajiado Shuttle", "route": "Nairobi → Kajiado → Market", "fare": "KSh 200–350", "phone": "+254701221133" },
+        { "sacco": "Local Shuttle", "route": "Nearby towns → Market", "fare": "KSh 100–200", "phone": "+254702332244" },
+        { "sacco": "Taxi / Boda", "route": "Short hops around market", "fare": "KSh 50–150", "phone": "+254701998877" }
+      ],
+      "lodging": [
+        { "name": "Nearby Guesthouses", "time": "5–20 min", "phone": "", "website": "" }
+      ],
+      "tours": [
+        { "name": "Craft Trails & Beadwork", "price": "KSh 1,200" }
+      ],
+      "nearby": ["Maasai Craft Stalls", "Cultural Centre"]
+    },
+
+    {
+      "id": "olkaria",
+      "name": "Olkaria Hot Springs",
+      "type": "nature",
+      "lat": -0.8682,
+      "lon": 36.2750,
+      "image": "https://images.unsplash.com/photo-1601890845793-9aaf8d8b1b2d?auto=format&fit=crop&w=1200&q=60",
+      "desc": "Geothermal pools and dramatic landscapes ideal for relaxing day trips.",
+      "transport": [
+        { "sacco": "Olkaria Tours Shuttle", "route": "Nairobi → Naivasha → Olkaria", "fare": "KSh 600–900", "phone": "+254701556600" },
+        { "sacco": "Local 4x4", "route": "Naivasha → Olkaria", "fare": "KSh 400–700", "phone": "+254703112233" },
+        { "sacco": "Isinya Line", "route": "Long-route via Isinya → Naivasha", "fare": "KSh 800–1200", "phone": "+254703667788" }
+      ],
+      "lodging": [
+        { "name": "Local Lodges", "time": "20–40 min", "phone": "", "website": "" },
+        { "name": "Camp Sites", "time": "nearby", "phone": "", "website": "" }
+      ],
+      "tours": [
+        { "name": "Hot Springs Day Trip", "price": "KSh 3,500" }
+      ],
+      "nearby": ["Geothermal Visitors Centre", "Naivasha Lake"]
+    }
+  ],
+
+  "lodgings": [
+    {
+      "id": "entarakuet",
+      "name": "Entarakuet Hotel",
+      "location": "Kiserian-Isinya Rd, Kajiado",
+      "phone": "+254722885577",
+      "website": "https://entarakuethotel.com",
+      "image": "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&fit=crop&w=1200&q=60"
+    },
+    {
+      "id": "norlis",
+      "name": "Norlis Tours & Travel (bookings)",
+      "location": "Milele Center, Kitengela",
+      "phone": "+254708441098",
+      "website": "https://www.norlis.co.ke",
+      "image": "https://images.unsplash.com/photo-1524086378968-32fc1e9c3b12?auto=format&fit=crop&w=1200&q=60"
+    }
+  ]
+    }
