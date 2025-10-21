@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Tembea360 — Explore Kajiado</title>
+  <title>Tembea034 — Explore Kajiado</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -12,118 +12,85 @@
     a{color:inherit;text-decoration:none;transition:.3s}
     img{max-width:100%;display:block}
 
-    /* ---------- Header ---------- */
+    /* Header */
     header{
       position:fixed;top:0;width:100%;z-index:1000;
       display:flex;align-items:center;justify-content:space-between;
-      padding:18px 24px;
-      color:#fff;
-      background:rgba(0,0,0,0.25);
-      backdrop-filter:blur(8px);
+      padding:18px 24px;color:#fff;
+      background:rgba(0,0,0,0.25);backdrop-filter:blur(8px);
       box-shadow:0 4px 16px rgba(0,0,0,0.1);
-      transition:background .4s, padding .4s, box-shadow .4s;
+      transition:background .4s,padding .4s,box-shadow .4s;
     }
     header.scrolled{
       background:linear-gradient(90deg,#00695c 0%,#f57c00 100%);
-      padding:12px 24px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.25);
+      padding:12px 24px;box-shadow:0 6px 18px rgba(0,0,0,0.25);
     }
     header h2{margin:0;font-size:1.4rem;letter-spacing:1px;font-weight:700}
     nav a{margin:0 10px;font-weight:600;opacity:0.9}
     nav a:hover{opacity:1;text-decoration:underline}
 
-    /* ---------- Hero ---------- */
+    /* Hero */
     .hero{
       position:relative;
       background:url('https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1400&q=60') center/cover;
-      color:#fff;text-align:center;
-      padding:120px 20px 100px;
+      color:#fff;text-align:center;padding:120px 20px 100px;
       display:flex;flex-direction:column;justify-content:center;
     }
-    .hero::after{
-      content:'';position:absolute;inset:0;
-      background:rgba(0,0,0,0.45);
-    }
+    .hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.45);}
     .hero h1,.hero p{position:relative;z-index:2}
     .hero h1{font-size:2.6rem;margin-bottom:10px;text-shadow:2px 2px 6px rgba(0,0,0,0.4)}
     .hero p{font-size:1.1rem;opacity:0.95}
 
-    /* ---------- Containers ---------- */
+    /* Containers */
     .container{max-width:1100px;margin:auto;padding:24px 18px}
     h2.section-title{text-align:center;color:#004d40;margin-top:10px;font-size:1.8rem;text-transform:uppercase;letter-spacing:1px}
 
-    /* ---------- Grid ---------- */
+    /* Grid */
     .grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:20px}
     @media(min-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
 
-    /* ---------- Card ---------- */
+    /* Card */
     .card{
       background:#fff;border-radius:16px;overflow:hidden;
       box-shadow:0 6px 22px rgba(0,0,0,0.08);
       transition:transform .3s,box-shadow .3s;
     }
-    .card:hover{
-      transform:translateY(-6px) scale(1.01);
-      box-shadow:0 12px 32px rgba(0,0,0,0.15);
-    }
+    .card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 12px 32px rgba(0,0,0,0.15);}
     .card-header{display:flex;gap:14px;padding:14px;background:linear-gradient(90deg,#e0f2f1,#fff)}
     .thumb{width:96px;height:72px;border-radius:10px;object-fit:cover;border:1px solid #ddd;transition:.3s}
     .card:hover .thumb{filter:brightness(1.05);transform:scale(1.03)}
     .card-title{font-size:1.15rem;font-weight:700;color:#00695c;margin:0}
     .meta{font-size:0.9rem;color:#666}
     .card .container p{margin:10px 0;color:#444}
+    .wiki-link{display:inline-block;margin-top:6px;font-size:0.9rem;color:#f57c00;font-weight:600;}
+    .wiki-link:hover{text-decoration:underline;color:#004d40}
 
-    /* ---------- Sub-sections ---------- */
-    .sub{
-      background:#fffbe7;border-left:4px solid #f57c00;
-      border-radius:8px;padding:12px 14px;margin:12px 0;
-      box-shadow:0 4px 12px rgba(0,0,0,0.05);
-    }
+    /* Sub-sections */
+    .sub{background:#fffbe7;border-left:4px solid #f57c00;border-radius:8px;padding:12px 14px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,0.05);}
     .sub h4{margin:0 0 8px;color:#004d40;font-size:1rem}
-    .transport-item{
-      display:flex;justify-content:space-between;align-items:center;
-      padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;
-      background:#fff;transition:.3s;
-    }
+    .transport-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;background:#fff;transition:.3s;}
     .transport-item:hover{background:#f1f8e9}
     .transport-name{font-weight:700;color:#004d40}
     .transport-fare{font-weight:700;color:#d84315}
-    .call-btn{
-      background:#00695c;color:#fff;padding:6px 12px;
-      border-radius:8px;font-weight:600;
-      box-shadow:0 3px 10px rgba(0,0,0,0.2);
-    }
+    .call-btn{background:#00695c;color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
     .call-btn:hover{background:#004d40}
 
-    /* ---------- Map ---------- */
-    #map{
-      height:420px;border-radius:14px;margin:32px auto;
-      box-shadow:0 8px 22px rgba(0,0,0,0.15);
-      border:3px solid #fff;
-      transition:0.3s;
-    }
+    /* Map */
+    #map{height:420px;border-radius:14px;margin:32px auto;box-shadow:0 8px 22px rgba(0,0,0,0.15);border:3px solid #fff;transition:0.3s;}
     #map:hover{transform:scale(1.01)}
 
-    /* ---------- Footer ---------- */
-    footer{
-      padding:20px;text-align:center;
-      background:linear-gradient(90deg,#004d40,#f57c00);
-      color:#fff;margin-top:30px;font-size:0.95rem;
-      letter-spacing:0.5px;
-    }
+    /* Footer */
+    footer{padding:20px;text-align:center;background:linear-gradient(90deg,#004d40,#f57c00);color:#fff;margin-top:30px;font-size:0.95rem;letter-spacing:0.5px;}
     footer a{color:#fff;text-decoration:underline}
 
-    /* ---------- Animations ---------- */
-    @keyframes fadeInUp{
-      0%{opacity:0;transform:translateY(20px)}
-      100%{opacity:1;transform:translateY(0)}
-    }
+    /* Animations */
+    @keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
     .card,.sub,.hero h1,.hero p{animation:fadeInUp .6s ease both}
   </style>
 </head>
 <body>
 <header id="mainHeader">
-  <h2>Tembea360</h2>
+  <h2>Tembea034</h2>
   <nav>
     <a href="#places">Destinations</a> · 
     <a href="#map">Map</a> · 
@@ -133,7 +100,7 @@
 
 <section class="hero">
   <h1>Discover Kajiado</h1>
-  <p>See matatu SACCOs, nearby lodgings & call to book easily.</p>
+  <p>Unveil the scenic hills, cultural wonders, and hidden gems of Kajiado — where adventure meets serenity.</p>
 </section>
 
 <div class="container" id="places">
@@ -148,97 +115,79 @@
   </section>
 </div>
 
-<footer>© 2025 Tembea360 · Explore Kajiado · <a href="#top">Back to Top</a></footer>
+<footer>· Explore Kajiado · <a href="#top">Back to Top</a></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* ---------- Header Scroll Effect ---------- */
+/* Header Scroll */
 window.addEventListener('scroll',()=>{
   const header=document.getElementById('mainHeader');
   if(window.scrollY>70){header.classList.add('scrolled');}
   else{header.classList.remove('scrolled');}
 });
 
-/* ---------- Embedded Data ---------- */
+/* Attraction Data */
 const data = {
   attractions: [
     {
       id:"ngong",
       name:"Ngong Hills",
-      type:"nature",
+      type:"Nature & Hiking",
       lat:-1.3667, lon:36.6333,
       image:"https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1200&q=60",
-      desc:"Hike the stunning Ngong Hills and enjoy panoramic views of the Rift Valley.",
+      desc:`Ngong Hills are a dramatic ridge of seven peaks overlooking the Great Rift Valley, offering sweeping views of Nairobi and the escarpments below. Visitors can enjoy cool winds, forest trails, and sightings of wildlife such as buffalo and antelope. It’s both a nature lover’s retreat and a slice of Kenya’s adventurous soul.`,
+      wiki:"https://en.wikipedia.org/wiki/Ngong_Hills",
       transport:[
         {sacco:"Ngong Transit",route:"Nairobi CBD → Ngong → Kiserian",fare:"KSh 250–350",phone:"+254701223344"},
-        {sacco:"Kajiado Express",route:"Nairobi Park → Ngong Stage",fare:"KSh 300–400",phone:"+254702334455"},
-        {sacco:"Ngong Local Boda",route:"Ngong Stage → Summit",fare:"KSh 50–150",phone:"+254701445566"}
+        {sacco:"Kajiado Express",route:"Nairobi Park → Ngong Stage",fare:"KSh 300–400",phone:"+254702334455"}
       ],
-      lodging:[
-        {name:"Kajiado Comfort Inn",time:"25 min"},
-        {name:"Enkare Eco Camp",time:"15 min"}
-      ],
-      tours:[
-        {name:"Ngong Hike Experience",price:"KSh 3,500"},
-        {name:"Maasai Cultural Walk",price:"KSh 2,000"}
-      ]
+      lodging:[{name:"Kajiado Comfort Inn",time:"25 min"},{name:"Enkare Eco Camp",time:"15 min"}],
+      tours:[{name:"Ngong Hike Experience",price:"KSh 3,500"}]
     },
     {
       id:"magadi",
       name:"Lake Magadi",
-      type:"nature",
+      type:"Salt Lake & Flamingos",
       lat:-1.9, lon:36.2833,
       image:"https://images.unsplash.com/photo-1524086378968-32fc1e9c3b12?auto=format&fit=crop&w=1200&q=60",
-      desc:"Soda lake famous for flamingos and striking salt formations.",
+      desc:`Lake Magadi, Kenya’s deepest soda lake, shimmers pink beneath the desert sun, surrounded by spectacular salt flats and geysers. It’s home to thousands of flamingos and framed by rugged hills that change color with the light — an otherworldly spectacle for photographers and explorers alike.`,
+      wiki:"https://en.wikipedia.org/wiki/Lake_Magadi",
       transport:[
         {sacco:"Magadi Shuttle",route:"Nairobi → Kitengela → Magadi",fare:"KSh 450–700",phone:"+254701556677"},
         {sacco:"Isinya Line",route:"Mombasa Rd → Magadi",fare:"KSh 500–800",phone:"+254703667788"}
       ],
-      lodging:[
-        {name:"Magadi Lodge",time:"nearby"},
-        {name:"Field Camps",time:"45 min"}
-      ],
-      tours:[
-        {name:"Magadi Birdwatching",price:"KSh 2,200"},
-        {name:"Salt Flats Photo Tour",price:"KSh 3,000"}
-      ]
+      lodging:[{name:"Magadi Lodge",time:"nearby"},{name:"Field Camps",time:"45 min"}],
+      tours:[{name:"Magadi Birdwatching",price:"KSh 2,200"}]
     },
     {
       id:"olepolos",
       name:"Olepolos Country Club",
-      type:"food",
+      type:"Food & Leisure",
       lat:-1.5162, lon:36.6844,
       image:"https://images.unsplash.com/photo-1558459654-c430f4c8b6df?auto=format&fit=crop&w=1200&q=60",
-      desc:"Famous spot for nyama choma, live music and hillside dining.",
+      desc:`A favorite weekend escape for Nairobians, Olepolos Country Club blends hearty nyama choma with a breathtaking hilltop view. The open-air terraces overlook green valleys, while the scent of roasting meat and laughter from live bands set the perfect Kenyan vibe.`,
+      wiki:"https://en.wikipedia.org/wiki/Kiserian",
       transport:[
         {sacco:"Olepolos Shuttle",route:"Nairobi → Olepolos (via Kiserian)",fare:"KSh 200–350",phone:"+254701889900"},
         {sacco:"Kiserian Matatu",route:"Kiserian → Olepolos",fare:"KSh 80–150",phone:"+254702990011"}
       ],
-      lodging:[
-        {name:"Olepolos Country Stay",time:"on-site"},
-        {name:"Enkorika Resort",time:"20 min"}
-      ],
+      lodging:[{name:"Olepolos Country Stay",time:"on-site"}],
       tours:[{name:"Sunset Dinner & Drive",price:"KSh 2,800"}]
     },
     {
       id:"amboseli",
-      name:"Amboseli Plains",
-      type:"nature",
+      name:"Amboseli National Park",
+      type:"Wildlife & Photography",
       lat:-2.6482, lon:37.2605,
       image:"https://images.unsplash.com/photo-1516466723877-e4ec1d736c8a?auto=format&fit=crop&w=1200&q=60",
-      desc:"Iconic park with elephants and epic views of Mt Kilimanjaro.",
+      desc:`Amboseli is the land of giants — vast plains dotted with acacia trees and herds of elephants roaming beneath Mount Kilimanjaro’s snowy crown. The park is a haven for photographers, birders, and dreamers chasing the magic of the African wilderness.`,
+      wiki:"https://en.wikipedia.org/wiki/Amboseli_National_Park",
       transport:[
         {sacco:"Amboseli Shuttle",route:"Nairobi → Amboseli",fare:"KSh 900–1500",phone:"+254701667788"},
         {sacco:"Kajiado Express",route:"Nairobi → Kajiado → Amboseli",fare:"KSh 700–1200",phone:"+254702444333"}
       ],
-      lodging:[
-        {name:"Amboseli Serena Lodge",time:"inside park"},
-        {name:"Tented Camps",time:"various"}
-      ],
-      tours:[
-        {name:"2-day Amboseli Safari",price:"KSh 28,000"},
-        {name:"Birdwatching & Photography",price:"KSh 7,000"}
-      ]
+      lodging:[{name:"Amboseli Serena Lodge",time:"inside park"}],
+      tours:[{name:"2-day Amboseli Safari",price:"KSh 28,000"}]
     }
   ],
   lodgings:[
@@ -259,8 +208,8 @@ const data = {
   ]
 };
 
-/* ---------- Render Attractions ---------- */
-const grid = document.getElementById("attractionGrid");
+/* Render Attractions */
+const grid=document.getElementById("attractionGrid");
 data.attractions.forEach(at=>{
   const card=document.createElement("div");card.className="card";
   card.innerHTML=`
@@ -270,6 +219,7 @@ data.attractions.forEach(at=>{
   </div>
   <div class="container">
     <p>${at.desc}</p>
+    <a class="wiki-link" href="${at.wiki}" target="_blank">Learn more on Wikipedia →</a>
     <div class="sub"><h4>🚐 Transport</h4>
       ${at.transport.map(t=>`
       <div class="transport-item">
@@ -277,18 +227,12 @@ data.attractions.forEach(at=>{
         <div><div class="transport-fare">${t.fare}</div><a class="call-btn" href="tel:${t.phone}">Call</a></div>
       </div>`).join('')}
     </div>
-    <div class="sub"><h4>🏨 Lodging</h4>
-      <ul>${at.lodging.map(l=>`<li>${l.name} · ${l.time}</li>`).join('')}</ul>
-    </div>
-    <div class="sub"><h4>🎟️ Tours</h4>
-      <ul>${at.tours.map(t=>`<li>${t.name} · <strong>${t.price}</strong></li>`).join('')}</ul>
-    </div>
   </div>`;
   grid.appendChild(card);
 });
 
-/* ---------- Lodgings ---------- */
-const lg = document.getElementById("lodgingGrid");
+/* Lodgings */
+const lg=document.getElementById("lodgingGrid");
 data.lodgings.forEach(l=>{
   const c=document.createElement("div");c.className="card";
   c.innerHTML=`
@@ -300,7 +244,7 @@ data.lodgings.forEach(l=>{
   lg.appendChild(c);
 });
 
-/* ---------- Map ---------- */
+/* Map */
 const map=L.map("map").setView([-1.85,36.8],9);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:18}).addTo(map);
 data.attractions.forEach(at=>{
@@ -308,4 +252,4 @@ data.attractions.forEach(at=>{
 });
 </script>
 </body>
-      </html>
+</html>
