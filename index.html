@@ -5,32 +5,125 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tembea360 — Explore Kajiado</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body{font-family:"Poppins",system-ui;margin:0;background:#f6f6f5;color:#222}
-    header{position:sticky;top:0;background:linear-gradient(90deg,#00897b 0%,#f57c00 100%);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 18px rgba(0,0,0,0.15)}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:auto;padding:18px}
-    .hero{background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.4)),url('https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1400&q=60') center/cover;color:#fff;text-align:center;padding:90px 18px;border-bottom:6px solid rgba(0,0,0,0.05)}
-    .grid{display:grid;grid-template-columns:1fr;gap:18px}
+    *{box-sizing:border-box;scroll-behavior:smooth}
+    body{font-family:"Poppins",system-ui;margin:0;background:#fafafa;color:#222;line-height:1.6}
+    a{color:inherit;text-decoration:none;transition:.3s}
+    img{max-width:100%;display:block}
+
+    /* ---------- Header ---------- */
+    header{
+      position:fixed;top:0;width:100%;z-index:1000;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:18px 24px;
+      color:#fff;
+      background:rgba(0,0,0,0.25);
+      backdrop-filter:blur(8px);
+      box-shadow:0 4px 16px rgba(0,0,0,0.1);
+      transition:background .4s, padding .4s, box-shadow .4s;
+    }
+    header.scrolled{
+      background:linear-gradient(90deg,#00695c 0%,#f57c00 100%);
+      padding:12px 24px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.25);
+    }
+    header h2{margin:0;font-size:1.4rem;letter-spacing:1px;font-weight:700}
+    nav a{margin:0 10px;font-weight:600;opacity:0.9}
+    nav a:hover{opacity:1;text-decoration:underline}
+
+    /* ---------- Hero ---------- */
+    .hero{
+      position:relative;
+      background:url('https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1400&q=60') center/cover;
+      color:#fff;text-align:center;
+      padding:120px 20px 100px;
+      display:flex;flex-direction:column;justify-content:center;
+    }
+    .hero::after{
+      content:'';position:absolute;inset:0;
+      background:rgba(0,0,0,0.45);
+    }
+    .hero h1,.hero p{position:relative;z-index:2}
+    .hero h1{font-size:2.6rem;margin-bottom:10px;text-shadow:2px 2px 6px rgba(0,0,0,0.4)}
+    .hero p{font-size:1.1rem;opacity:0.95}
+
+    /* ---------- Containers ---------- */
+    .container{max-width:1100px;margin:auto;padding:24px 18px}
+    h2.section-title{text-align:center;color:#004d40;margin-top:10px;font-size:1.8rem;text-transform:uppercase;letter-spacing:1px}
+
+    /* ---------- Grid ---------- */
+    .grid{display:grid;grid-template-columns:1fr;gap:22px;margin-top:20px}
     @media(min-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
-    .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.08);transition:.3s;padding-bottom:10px}
-    .card:hover{transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.15)}
-    .card-header{display:flex;gap:14px;padding:14px}
-    .thumb{width:96px;height:72px;border-radius:8px;object-fit:cover;border:1px solid #eee}
-    .card-title{font-size:1.1rem;font-weight:700;color:#00695c;margin:0}
+
+    /* ---------- Card ---------- */
+    .card{
+      background:#fff;border-radius:16px;overflow:hidden;
+      box-shadow:0 6px 22px rgba(0,0,0,0.08);
+      transition:transform .3s,box-shadow .3s;
+    }
+    .card:hover{
+      transform:translateY(-6px) scale(1.01);
+      box-shadow:0 12px 32px rgba(0,0,0,0.15);
+    }
+    .card-header{display:flex;gap:14px;padding:14px;background:linear-gradient(90deg,#e0f2f1,#fff)}
+    .thumb{width:96px;height:72px;border-radius:10px;object-fit:cover;border:1px solid #ddd;transition:.3s}
+    .card:hover .thumb{filter:brightness(1.05);transform:scale(1.03)}
+    .card-title{font-size:1.15rem;font-weight:700;color:#00695c;margin:0}
     .meta{font-size:0.9rem;color:#666}
-    .sub{background:#fff8e1;border-left:4px solid #f57c00;border-radius:8px;padding:10px 12px;margin:10px 0}
-    .transport-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;background:#fff}
+    .card .container p{margin:10px 0;color:#444}
+
+    /* ---------- Sub-sections ---------- */
+    .sub{
+      background:#fffbe7;border-left:4px solid #f57c00;
+      border-radius:8px;padding:12px 14px;margin:12px 0;
+      box-shadow:0 4px 12px rgba(0,0,0,0.05);
+    }
+    .sub h4{margin:0 0 8px;color:#004d40;font-size:1rem}
+    .transport-item{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:8px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;
+      background:#fff;transition:.3s;
+    }
+    .transport-item:hover{background:#f1f8e9}
     .transport-name{font-weight:700;color:#004d40}
-    .transport-fare{font-weight:700;color:#bf360c}
-    .call-btn{background:#00695c;color:#fff;padding:6px 10px;border-radius:8px;text-decoration:none;font-weight:600}
-    #map{height:420px;border-radius:12px;margin:20px auto;box-shadow:0 8px 18px rgba(0,0,0,0.12)}
-    footer{padding:18px;text-align:center;background:linear-gradient(90deg,#004d40,#f57c00);color:#fff;margin-top:26px}
+    .transport-fare{font-weight:700;color:#d84315}
+    .call-btn{
+      background:#00695c;color:#fff;padding:6px 12px;
+      border-radius:8px;font-weight:600;
+      box-shadow:0 3px 10px rgba(0,0,0,0.2);
+    }
+    .call-btn:hover{background:#004d40}
+
+    /* ---------- Map ---------- */
+    #map{
+      height:420px;border-radius:14px;margin:32px auto;
+      box-shadow:0 8px 22px rgba(0,0,0,0.15);
+      border:3px solid #fff;
+      transition:0.3s;
+    }
+    #map:hover{transform:scale(1.01)}
+
+    /* ---------- Footer ---------- */
+    footer{
+      padding:20px;text-align:center;
+      background:linear-gradient(90deg,#004d40,#f57c00);
+      color:#fff;margin-top:30px;font-size:0.95rem;
+      letter-spacing:0.5px;
+    }
+    footer a{color:#fff;text-decoration:underline}
+
+    /* ---------- Animations ---------- */
+    @keyframes fadeInUp{
+      0%{opacity:0;transform:translateY(20px)}
+      100%{opacity:1;transform:translateY(0)}
+    }
+    .card,.sub,.hero h1,.hero p{animation:fadeInUp .6s ease both}
   </style>
 </head>
 <body>
-<header>
-  <h2 style="margin:0;font-size:1.3rem;">Tembea034</h2>
+<header id="mainHeader">
+  <h2>Tembea360</h2>
   <nav>
     <a href="#places">Destinations</a> · 
     <a href="#map">Map</a> · 
@@ -39,26 +132,33 @@
 </header>
 
 <section class="hero">
-  <h1 style="margin:0;font-size:2rem;">Discover Kajiado</h1>
+  <h1>Discover Kajiado</h1>
   <p>See matatu SACCOs, nearby lodgings & call to book easily.</p>
 </section>
 
 <div class="container" id="places">
-  <h2 style="text-align:center;color:#004d40">Top Destinations</h2>
+  <h2 class="section-title">Top Destinations</h2>
   <div class="grid" id="attractionGrid"></div>
 
   <div id="map"></div>
 
   <section id="bookings">
-    <h2 style="text-align:center;color:#004d40">Book Stays & Tours</h2>
+    <h2 class="section-title">Book Stays & Tours</h2>
     <div class="grid" id="lodgingGrid"></div>
   </section>
 </div>
 
-<footer>© 2025 Tembea360 · Explore Kajiado</footer>
+<footer>© 2025 Tembea360 · Explore Kajiado · <a href="#top">Back to Top</a></footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+/* ---------- Header Scroll Effect ---------- */
+window.addEventListener('scroll',()=>{
+  const header=document.getElementById('mainHeader');
+  if(window.scrollY>70){header.classList.add('scrolled');}
+  else{header.classList.remove('scrolled');}
+});
+
 /* ---------- Embedded Data ---------- */
 const data = {
   attractions: [
@@ -67,7 +167,7 @@ const data = {
       name:"Ngong Hills",
       type:"nature",
       lat:-1.3667, lon:36.6333,
-      image:"https://share.google/i9iKKq9S0UjyrUJOL",
+      image:"https://images.unsplash.com/photo-1605727216801-e3fbb767cebd?auto=format&fit=crop&w=1200&q=60",
       desc:"Hike the stunning Ngong Hills and enjoy panoramic views of the Rift Valley.",
       transport:[
         {sacco:"Ngong Transit",route:"Nairobi CBD → Ngong → Kiserian",fare:"KSh 250–350",phone:"+254701223344"},
@@ -159,7 +259,7 @@ const data = {
   ]
 };
 
-/* ---------- Render ---------- */
+/* ---------- Render Attractions ---------- */
 const grid = document.getElementById("attractionGrid");
 data.attractions.forEach(at=>{
   const card=document.createElement("div");card.className="card";
@@ -187,7 +287,7 @@ data.attractions.forEach(at=>{
   grid.appendChild(card);
 });
 
-/* ---------- Lodging Bookings ---------- */
+/* ---------- Lodgings ---------- */
 const lg = document.getElementById("lodgingGrid");
 data.lodgings.forEach(l=>{
   const c=document.createElement("div");c.className="card";
@@ -196,7 +296,7 @@ data.lodgings.forEach(l=>{
     <img class="thumb" src="${l.image}">
     <div><div class="card-title">${l.name}</div><div class="meta">${l.location}</div></div>
   </div>
-  <div class="container"><p>${l.location}</p><a href="${l.website}" target="_blank">Visit site</a></div>`;
+  <div class="container"><p>${l.location}</p><a class="call-btn" href="${l.website}" target="_blank">Visit Site</a></div>`;
   lg.appendChild(c);
 });
 
@@ -208,4 +308,4 @@ data.attractions.forEach(at=>{
 });
 </script>
 </body>
-</html>
+      </html>
