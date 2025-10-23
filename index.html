@@ -75,10 +75,40 @@
     .call-btn{background:#00695c;color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
     .call-btn:hover{background:#004d40}
 
-    /* Gallery */
-    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-top:10px;}
-    .gallery img{width:100%;height:70px;object-fit:cover;border-radius:6px;transition:.3s}
-    .gallery img:hover{transform:scale(1.05);box-shadow:0 3px 10px rgba(0,0,0,0.25);}
+    /* Gallery Section */
+    .gallery-section{
+      background:linear-gradient(90deg,#f1f8e9,#fffde7);
+      border-radius:12px;
+      padding:12px 14px;
+      margin:16px 0;
+      box-shadow:0 3px 12px rgba(0,0,0,0.05);
+    }
+    .gallery-section h4{
+      color:#00695c;
+      font-size:1rem;
+      margin:0 0 8px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+      gap:8px;
+    }
+    .gallery img{
+      width:100%;
+      height:75px;
+      object-fit:cover;
+      border-radius:10px;
+      transition:.3s;
+      box-shadow:0 2px 8px rgba(0,0,0,0.08);
+    }
+    .gallery img:hover{
+      transform:scale(1.07);
+      box-shadow:0 4px 14px rgba(0,0,0,0.2);
+    }
 
     /* Map */
     #map{height:420px;border-radius:14px;margin:32px auto;box-shadow:0 8px 22px rgba(0,0,0,0.15);border:3px solid #fff;transition:0.3s;}
@@ -131,81 +161,33 @@ window.addEventListener('scroll',()=>{
   else{header.classList.remove('scrolled');}
 });
 
-/* Attraction Data */
+/* Data */
 const data = {
   attractions: [
-    {
-      id:"ngong",
-      name:"Ngong Hills",
-      type:"Nature & Hiking",
-      lat:-1.3667, lon:36.6333,
-      image:"tembea.png",
-      desc:`Ngong Hills are a dramatic ridge of seven peaks overlooking the Great Rift Valley, offering sweeping views of Nairobi and the escarpments below.`,
-      wiki:"https://en.wikipedia.org/wiki/Ngong_Hills",
-      transport:[
-        {sacco:"Ngong Transit",route:"Nairobi CBD → Ngong → Kiserian",fare:"KSh 250–350",phone:"+254701223344"},
-        {sacco:"Kajiado Express",route:"Nairobi Park → Ngong Stage",fare:"KSh 300–400",phone:"+254702334455"}
-      ],
-      gallery:["tembea.png","tembea.png","tembea.png"]
-    },
-    {
-      id:"magadi",
-      name:"Lake Magadi",
-      type:"Salt Lake & Flamingos",
-      lat:-1.9, lon:36.2833,
-      image:"magadi.png",
-      desc:`Lake Magadi, Kenya’s deepest soda lake, shimmers pink beneath the desert sun and is home to thousands of flamingos.`,
-      wiki:"https://en.wikipedia.org/wiki/Lake_Magadi",
-      transport:[
-        {sacco:"Magadi Shuttle",route:"Nairobi → Kitengela → Magadi",fare:"KSh 450–700",phone:"+254701556677"},
-        {sacco:"Isinya Line",route:"Mombasa Rd → Magadi",fare:"KSh 500–800",phone:"+254703667788"}
-      ],
-      gallery:["magadi.png","magadi.png","magadi.png"]
-    },
-    {
-      id:"olepolos",
-      name:"Olepolos Country Club",
-      type:"Food & Leisure",
-      lat:-1.5162, lon:36.6844,
-      image:"olepolos.png",
-      desc:`Olepolos Country Club blends hearty nyama choma with a breathtaking hilltop view, loved by weekenders from Nairobi.`,
-      wiki:"https://en.wikipedia.org/wiki/Kiserian",
-      transport:[
-        {sacco:"Olepolos Shuttle",route:"Nairobi → Olepolos (via Kiserian)",fare:"KSh 200–350",phone:"+254701889900"},
-        {sacco:"Kiserian Matatu",route:"Kiserian → Olepolos",fare:"KSh 80–150",phone:"+254702990011"}
-      ],
-      gallery:["olepolos.png","olepolos.png","olepolos.png"]
-    },
-    {
-      id:"amboseli",
-      name:"Amboseli National Park",
-      type:"Wildlife & Photography",
-      lat:-2.6482, lon:37.2605,
-      image:"amboseli.png",
-      desc:`Amboseli is the land of giants — elephants roam under Mount Kilimanjaro’s snow-capped peaks.`,
-      wiki:"https://en.wikipedia.org/wiki/Amboseli_National_Park",
-      transport:[
-        {sacco:"Amboseli Shuttle",route:"Nairobi → Amboseli",fare:"KSh 900–1500",phone:"+254701667788"},
-        {sacco:"Kajiado Express",route:"Nairobi → Kajiado → Amboseli",fare:"KSh 700–1200",phone:"+254702444333"}
-      ],
-      gallery:["amboseli.png","amboseli.png","amboseli.png"]
-    }
+    {id:"ngong",name:"Ngong Hills",type:"Nature & Hiking",lat:-1.3667,lon:36.6333,image:"tembea.png",
+     desc:`Ngong Hills are a dramatic ridge of seven peaks overlooking the Great Rift Valley.`,
+     wiki:"https://en.wikipedia.org/wiki/Ngong_Hills",
+     transport:[{sacco:"Ngong Transit",route:"Nairobi CBD → Ngong → Kiserian",fare:"KSh 250–350",phone:"+254701223344"}],
+     gallery:["tembea.png","tembea.png","tembea.png"]},
+    {id:"magadi",name:"Lake Magadi",type:"Salt Lake & Flamingos",lat:-1.9,lon:36.2833,image:"magadi.png",
+     desc:`Lake Magadi is Kenya’s deepest soda lake, home to thousands of flamingos.`,
+     wiki:"https://en.wikipedia.org/wiki/Lake_Magadi",
+     transport:[{sacco:"Magadi Shuttle",route:"Nairobi → Kitengela → Magadi",fare:"KSh 450–700",phone:"+254701556677"}],
+     gallery:["magadi.png","magadi.png","magadi.png"]},
+    {id:"olepolos",name:"Olepolos Country Club",type:"Food & Leisure",lat:-1.5162,lon:36.6844,image:"olepolos.png",
+     desc:`Olepolos Country Club blends hearty nyama choma with breathtaking hilltop views.`,
+     wiki:"https://en.wikipedia.org/wiki/Kiserian",
+     transport:[{sacco:"Olepolos Shuttle",route:"Nairobi → Olepolos",fare:"KSh 200–350",phone:"+254701889900"}],
+     gallery:["olepolos.png","olepolos.png","olepolos.png"]},
+    {id:"amboseli",name:"Amboseli National Park",type:"Wildlife & Photography",lat:-2.6482,lon:37.2605,image:"amboseli.png",
+     desc:`Amboseli — land of giants where elephants roam beneath Mount Kilimanjaro.`,
+     wiki:"https://en.wikipedia.org/wiki/Amboseli_National_Park",
+     transport:[{sacco:"Amboseli Shuttle",route:"Nairobi → Amboseli",fare:"KSh 900–1500",phone:"+254701667788"}],
+     gallery:["amboseli.png","amboseli.png","amboseli.png"]}
   ],
   lodgings:[
-    {
-      name:"Entarakuet Hotel",
-      location:"Kiserian-Isinya Rd, Kajiado",
-      phone:"+254722885577",
-      website:"https://entarakuethotel.com",
-      image:"entarakuet.png"
-    },
-    {
-      name:"Norlis Tours & Travel",
-      location:"Milele Center, Kitengela",
-      phone:"+254708441098",
-      website:"https://www.norlis.co.ke",
-      image:"norlis.png"
-    }
+    {name:"Entarakuet Hotel",location:"Kiserian-Isinya Rd, Kajiado",phone:"+254722885577",website:"https://entarakuethotel.com",image:"entarakuet.png"},
+    {name:"Norlis Tours & Travel",location:"Milele Center, Kitengela",phone:"+254708441098",website:"https://www.norlis.co.ke",image:"norlis.png"}
   ]
 };
 
@@ -221,8 +203,9 @@ data.attractions.forEach(at=>{
   <div class="container">
     <p>${at.desc}</p>
     <a class="wiki-link" href="${at.wiki}" target="_blank">Learn more on Wikipedia →</a>
-    <div class="gallery">
-      ${at.gallery.map(g=>`<img src="${g}" alt="${at.name} photo">`).join('')}
+    <div class="gallery-section">
+      <h4>📸 Previous Catchups</h4>
+      <div class="gallery">${at.gallery.map(g=>`<img src="${g}" alt="${at.name} photo">`).join('')}</div>
     </div>
     <div class="sub"><h4>🚐 Transport</h4>
       ${at.transport.map(t=>`
@@ -246,10 +229,13 @@ data.lodgings.forEach(l=>{
   </div>
   <div class="container">
     <p>${l.location}</p>
-    <div class="gallery">
-      <img src="${l.image}" alt="${l.name}">
-      <img src="${l.image}" alt="${l.name}">
-      <img src="${l.image}" alt="${l.name}">
+    <div class="gallery-section">
+      <h4>📸 Previous Catchups</h4>
+      <div class="gallery">
+        <img src="${l.image}" alt="${l.name}">
+        <img src="${l.image}" alt="${l.name}">
+        <img src="${l.image}" alt="${l.name}">
+      </div>
     </div>
     <a class="call-btn" href="${l.website}" target="_blank">Visit Site</a>
   </div>`;
