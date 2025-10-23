@@ -10,7 +10,7 @@
     *{box-sizing:border-box;scroll-behavior:smooth}
     body{font-family:"Poppins",system-ui;margin:0;background:#fafafa;color:#222;line-height:1.6}
     a{color:inherit;text-decoration:none;transition:.3s}
-    img{max-width:100%;display:block}
+    img{max-width:100%;display:block;border-radius:8px}
 
     /* Header */
     header{
@@ -75,6 +75,11 @@
     .call-btn{background:#00695c;color:#fff;padding:6px 12px;border-radius:8px;font-weight:600;box-shadow:0 3px 10px rgba(0,0,0,0.2);}
     .call-btn:hover{background:#004d40}
 
+    /* Gallery */
+    .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-top:10px;}
+    .gallery img{width:100%;height:70px;object-fit:cover;border-radius:6px;transition:.3s}
+    .gallery img:hover{transform:scale(1.05);box-shadow:0 3px 10px rgba(0,0,0,0.25);}
+
     /* Map */
     #map{height:420px;border-radius:14px;margin:32px auto;box-shadow:0 8px 22px rgba(0,0,0,0.15);border:3px solid #fff;transition:0.3s;}
     #map:hover{transform:scale(1.01)}
@@ -135,14 +140,13 @@ const data = {
       type:"Nature & Hiking",
       lat:-1.3667, lon:36.6333,
       image:"tembea.png",
-      desc:`Ngong Hills are a dramatic ridge of seven peaks overlooking the Great Rift Valley, offering sweeping views of Nairobi and the escarpments below. Visitors can enjoy cool winds, forest trails, and sightings of wildlife such as buffalo and antelope. It’s both a nature lover’s retreat and a slice of Kenya’s adventurous soul.`,
+      desc:`Ngong Hills are a dramatic ridge of seven peaks overlooking the Great Rift Valley, offering sweeping views of Nairobi and the escarpments below.`,
       wiki:"https://en.wikipedia.org/wiki/Ngong_Hills",
       transport:[
         {sacco:"Ngong Transit",route:"Nairobi CBD → Ngong → Kiserian",fare:"KSh 250–350",phone:"+254701223344"},
         {sacco:"Kajiado Express",route:"Nairobi Park → Ngong Stage",fare:"KSh 300–400",phone:"+254702334455"}
       ],
-      lodging:[{name:"Kajiado Comfort Inn",time:"25 min"},{name:"Enkare Eco Camp",time:"15 min"}],
-      tours:[{name:"Ngong Hike Experience",price:"KSh 3,500"}]
+      gallery:["tembea.png","tembea.png","tembea.png"]
     },
     {
       id:"magadi",
@@ -150,14 +154,13 @@ const data = {
       type:"Salt Lake & Flamingos",
       lat:-1.9, lon:36.2833,
       image:"magadi.png",
-      desc:`Lake Magadi, Kenya’s deepest soda lake, shimmers pink beneath the desert sun, surrounded by spectacular salt flats and geysers. It’s home to thousands of flamingos and framed by rugged hills that change color with the light — an otherworldly spectacle for photographers and explorers alike.`,
+      desc:`Lake Magadi, Kenya’s deepest soda lake, shimmers pink beneath the desert sun and is home to thousands of flamingos.`,
       wiki:"https://en.wikipedia.org/wiki/Lake_Magadi",
       transport:[
         {sacco:"Magadi Shuttle",route:"Nairobi → Kitengela → Magadi",fare:"KSh 450–700",phone:"+254701556677"},
         {sacco:"Isinya Line",route:"Mombasa Rd → Magadi",fare:"KSh 500–800",phone:"+254703667788"}
       ],
-      lodging:[{name:"Magadi Lodge",time:"nearby"},{name:"Field Camps",time:"45 min"}],
-      tours:[{name:"Magadi Birdwatching",price:"KSh 2,200"}]
+      gallery:["magadi.png","magadi.png","magadi.png"]
     },
     {
       id:"olepolos",
@@ -165,14 +168,13 @@ const data = {
       type:"Food & Leisure",
       lat:-1.5162, lon:36.6844,
       image:"olepolos.png",
-      desc:`A favorite weekend escape for Nairobians, Olepolos Country Club blends hearty nyama choma with a breathtaking hilltop view. The open-air terraces overlook green valleys, while the scent of roasting meat and laughter from live bands set the perfect Kenyan vibe.`,
+      desc:`Olepolos Country Club blends hearty nyama choma with a breathtaking hilltop view, loved by weekenders from Nairobi.`,
       wiki:"https://en.wikipedia.org/wiki/Kiserian",
       transport:[
         {sacco:"Olepolos Shuttle",route:"Nairobi → Olepolos (via Kiserian)",fare:"KSh 200–350",phone:"+254701889900"},
         {sacco:"Kiserian Matatu",route:"Kiserian → Olepolos",fare:"KSh 80–150",phone:"+254702990011"}
       ],
-      lodging:[{name:"Olepolos Country Stay",time:"on-site"}],
-      tours:[{name:"Sunset Dinner & Drive",price:"KSh 2,800"}]
+      gallery:["olepolos.png","olepolos.png","olepolos.png"]
     },
     {
       id:"amboseli",
@@ -180,14 +182,13 @@ const data = {
       type:"Wildlife & Photography",
       lat:-2.6482, lon:37.2605,
       image:"amboseli.png",
-      desc:`Amboseli is the land of giants — vast plains dotted with acacia trees and herds of elephants roaming beneath Mount Kilimanjaro’s snowy crown. The park is a haven for photographers, birders, and dreamers chasing the magic of the African wilderness.`,
+      desc:`Amboseli is the land of giants — elephants roam under Mount Kilimanjaro’s snow-capped peaks.`,
       wiki:"https://en.wikipedia.org/wiki/Amboseli_National_Park",
       transport:[
         {sacco:"Amboseli Shuttle",route:"Nairobi → Amboseli",fare:"KSh 900–1500",phone:"+254701667788"},
         {sacco:"Kajiado Express",route:"Nairobi → Kajiado → Amboseli",fare:"KSh 700–1200",phone:"+254702444333"}
       ],
-      lodging:[{name:"Amboseli Serena Lodge",time:"inside park"}],
-      tours:[{name:"2-day Amboseli Safari",price:"KSh 28,000"}]
+      gallery:["amboseli.png","amboseli.png","amboseli.png"]
     }
   ],
   lodgings:[
@@ -220,6 +221,9 @@ data.attractions.forEach(at=>{
   <div class="container">
     <p>${at.desc}</p>
     <a class="wiki-link" href="${at.wiki}" target="_blank">Learn more on Wikipedia →</a>
+    <div class="gallery">
+      ${at.gallery.map(g=>`<img src="${g}" alt="${at.name} photo">`).join('')}
+    </div>
     <div class="sub"><h4>🚐 Transport</h4>
       ${at.transport.map(t=>`
       <div class="transport-item">
@@ -240,7 +244,15 @@ data.lodgings.forEach(l=>{
     <img class="thumb" src="${l.image}">
     <div><div class="card-title">${l.name}</div><div class="meta">${l.location}</div></div>
   </div>
-  <div class="container"><p>${l.location}</p><a class="call-btn" href="${l.website}" target="_blank">Visit Site</a></div>`;
+  <div class="container">
+    <p>${l.location}</p>
+    <div class="gallery">
+      <img src="${l.image}" alt="${l.name}">
+      <img src="${l.image}" alt="${l.name}">
+      <img src="${l.image}" alt="${l.name}">
+    </div>
+    <a class="call-btn" href="${l.website}" target="_blank">Visit Site</a>
+  </div>`;
   lg.appendChild(c);
 });
 
